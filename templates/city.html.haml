@@ -1,0 +1,14 @@
+%table
+  %thead
+    %tr
+      %th Name
+      %th Description
+      %th
+  %tbody
+    - startups.each do |startup|
+      %tr
+        %td
+          %a{href: startup['homepage_url']}= startup['name']
+        %td= startup['short_description']
+        %td
+          %a{href: startup['crunchbase_url']} Crunchbase
