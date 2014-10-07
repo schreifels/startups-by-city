@@ -11,9 +11,8 @@ def to_path(country, state, city)
   "#{city} #{state} #{country}".downcase.gsub(/\W+/, '-') + '.html'
 end
 
-source_file = 'temp.csv'
 source_file = Dir['source/crunchbase_*.csv'].last
-raise 'todo' unless File.exists?(source_file)
+raise 'Cannot find source file' unless File.exists?(source_file)
 
 i = 1
 skips = 0
@@ -52,21 +51,25 @@ end
 
 ## Render homepage #############################################################
 
-puts 'Rendering homepage...'
+puts 'Generating sidebar partial...'
 
-engine = Haml::Engine.new(File.read('templates/layout.html.haml'))
-File.write('output/index.html', engine.render(Object.new, startups: startups))
+sidebar_html = Haml::Engine.new(File.read('templates/_sidebar.html.haml')).render(Object.new, startups: startups)
+
+puts 'Rendering layout...'
+
+layout_engine = Haml::Engine.new(File.read('templates/layout.html.haml')).render_proc(Object.new, :sidebar_html, :content_html)
+File.write('output/index.html', layout_engine.call(sidebar_html: sidebar_html))
 
 ## Render city pages ###########################################################
 
 puts 'Rendering city pages...'
 
-engine = Haml::Engine.new(File.read('templates/city.html.haml'))
-startups.each do |country, states|
-  states.each do |state, cities|
+engine = Haml::Engine.new(File.read('templates/city.html.haml')).render_proc(Object.new, :startups)
+startups.each do |country, regions|
+  regions.each do |region, cities|
     cities.each do |city, startups_in_city|
-      puts '  Rendering page for ' + city
-      File.write('output/' + to_path(country, state, city), engine.render(Object.new, startups: startups_in_city))
+      puts "  Rendering page for #{city}, #{region}, #{country}"
+      File.write('output/' + to_path(country, region, city), layout_engine.call(sidebar_html: sidebar_html, content_html: engine.call(startups: startups_in_city)))
     end
   end
 end

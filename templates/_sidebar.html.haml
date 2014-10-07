@@ -1,0 +1,13 @@
+%ul
+  - startups.each do |country, regions|
+    %li
+      = country
+      %ul
+        - regions.each do |region, cities|
+          %li
+            = region
+            %ul
+              - cities.each do |city, startups|
+                %li
+                  %a{href: to_path(country, region, city)}= city
+                  (#{startups.length})
