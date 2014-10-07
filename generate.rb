@@ -1,18 +1,14 @@
 #!/usr/bin/env ruby
 
+require './lib/startups_by_city'
 require 'csv'
 require 'haml'
+
+source_file = StartupsByCity::SourceFile.new
 
 ## Generate hash of startups ###################################################
 
 puts 'Generating hash...'
-
-def to_path(country, state, city)
-  "#{city} #{state} #{country}".downcase.gsub(/\W+/, '-') + '.html'
-end
-
-source_file = Dir['source/crunchbase_*.csv'].last
-raise 'Cannot find source file' unless File.exists?(source_file)
 
 i = 1
 skips = 0
@@ -69,7 +65,7 @@ startups.each do |country, regions|
   regions.each do |region, cities|
     cities.each do |city, startups_in_city|
       puts "  Rendering page for #{city}, #{region}, #{country}"
-      File.write('output/' + to_path(country, region, city), layout_engine.call(sidebar_html: sidebar_html, content_html: engine.call(startups: startups_in_city)))
+      File.write('output/' + StartupsByCity::Helpers::to_path(country, region, city), layout_engine.call(sidebar_html: sidebar_html, content_html: engine.call(startups: startups_in_city)))
     end
   end
 end
