@@ -1,13 +1,14 @@
-%ul
-  - collection.each do |country, regions|
-    %li
-      = country
-      %ul
-        - regions.each do |region, cities|
-          %li
-            = region
-            %ul
-              - cities.each do |city|
-                %li
-                  %a{href: StartupsByCity::Renderer::city_path(country, region, city)}
-                    #{city[:name]} (#{city[:startups_count]})
+%nav#sidebar
+  %ul
+    - collection.each do |country, regions|
+      %li
+        %a{href: '#'}= country
+        %ul.hidden
+          - regions.each do |region, cities|
+            %li
+              = region
+              %ul.hidden
+                - cities.each do |city|
+                  %li
+                    %a{href: StartupsByCity::Renderer::city_path(country, region, city)}
+                      #{city[:name]} (#{city[:startups_count]})

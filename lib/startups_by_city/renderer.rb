@@ -7,7 +7,8 @@ module StartupsByCity
         puts
         puts 'Preparing output directory...'
         `mkdir -p #{File.join(BASE_PATH, 'output')}`
-        `rm -f #{File.join(BASE_PATH, 'output', '*.html')}`
+        `rm -f #{File.join(BASE_PATH, 'output', '*')}`
+        `cp #{File.join(BASE_PATH, 'assets', '*')} #{File.join(BASE_PATH, 'output')}`
 
         puts
         puts 'Rendering sidebar partial...'
@@ -17,7 +18,7 @@ module StartupsByCity
         puts
         puts 'Rendering layout...'
         layout_engine = Haml::Engine.new(template_content('layout')).
-            render_proc(Object.new, :sidebar_html, :content_html)
+            render_proc(Object.new, :sidebar_html, :content_html, :location_name)
         File.write(File.join(BASE_PATH, 'output', 'index.html'), layout_engine.call(sidebar_html: sidebar_html))
 
         puts
@@ -26,10 +27,11 @@ module StartupsByCity
         collection.each do |country, regions|
           regions.each do |region, cities|
             cities.each do |city|
-              puts "  Rendering page for #{city[:name]}, #{region}, #{country}"
+              location_name = "#{city[:name]}, #{region}, #{country}"
+              puts "  Rendering page for #{location_name}"
               File.write(
                 File.join(BASE_PATH, 'output', city_path(country, region, city)),
-                layout_engine.call(sidebar_html: sidebar_html, content_html: city_engine.call(startups: city[:startups]))
+                layout_engine.call(sidebar_html: sidebar_html, content_html: city_engine.call(startups: city[:startups]), location_name: location_name)
               )
             end
           end
