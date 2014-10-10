@@ -1,5 +1,5 @@
 %ul
-  - startups.each do |country, regions|
+  - collection.each do |country, regions|
     %li
       = country
       %ul
@@ -7,7 +7,7 @@
           %li
             = region
             %ul
-              - cities.each do |city, startups|
+              - cities.each do |city|
                 %li
-                  %a{href: to_path(country, region, city)}= city
-                  (#{startups.length})
+                  %a{href: StartupsByCity::Renderer::city_path(country, region, city)}
+                    #{city[:name]} (#{city[:startups_count]})
