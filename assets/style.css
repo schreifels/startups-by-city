@@ -4,4 +4,10 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 .hidden { display: none; }
 
 #container { width: 75%; max-width: 768px; margin: 20px auto; }
+
 #sidebar { width: 20%; float: left; }
+#sidebar .expanded { font-weight: bold; }
+#sidebar .expandable + ul { display: none; }
+#sidebar .expandable.expanded + ul { display: block; }
+
+#content tr:hover { background: #f7f7f7; }

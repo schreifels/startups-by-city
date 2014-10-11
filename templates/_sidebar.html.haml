@@ -2,11 +2,13 @@
   %ul
     - collection.each do |country|
       %li
-        %a{href: '#'} #{country[:name]} (#{country[:startups_count]})
+        %a.expandable{href: '#'}
+          = StartupsByCity::Reference.translate_region_code(country[:name]) + " (#{country[:startups_count]})"
         %ul.hidden
           - country[:regions].each do |region|
             %li
-              #{region[:name]} (#{region[:startups_count]})
+              %a.expandable{href: '#'}
+                = StartupsByCity::Reference.translate_region_code(country[:name], region[:name]) + " (#{region[:startups_count]})"
               %ul.hidden
                 - region[:cities].each do |city|
                   %li
