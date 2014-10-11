@@ -1,14 +1,14 @@
 %nav#sidebar
   %ul
-    - collection.each do |country, regions|
+    - collection.each do |country|
       %li
-        %a{href: '#'}= country
+        %a{href: '#'} #{country[:name]} (#{country[:startups_count]})
         %ul.hidden
-          - regions.each do |region, cities|
+          - country[:regions].each do |region|
             %li
-              = region
+              #{region[:name]} (#{region[:startups_count]})
               %ul.hidden
-                - cities.each do |city|
+                - region[:cities].each do |city|
                   %li
-                    %a{href: StartupsByCity::Renderer::city_path(country, region, city)}
+                    %a{href: StartupsByCity::Renderer::city_path(country[:name], region[:name], city[:name])}
                       #{city[:name]} (#{city[:startups_count]})

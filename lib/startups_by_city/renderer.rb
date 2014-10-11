@@ -24,13 +24,13 @@ module StartupsByCity
         puts
         puts 'Rendering city pages...'
         city_engine = Haml::Engine.new(template_content('city')).render_proc(Object.new, :startups)
-        collection.each do |country, regions|
-          regions.each do |region, cities|
-            cities.each do |city|
-              location_name = "#{city[:name]}, #{region}, #{country}"
+        collection.each do |country|
+          country[:regions].each do |region|
+            region[:cities].each do |city|
+              location_name = "#{city[:name]}, #{region[:name]}, #{country[:name]}"
               puts "  Rendering page for #{location_name}"
               File.write(
-                File.join(BASE_PATH, 'output', city_path(country, region, city)),
+                File.join(BASE_PATH, 'output', city_path(country[:name], region[:name], city[:name])),
                 layout_engine.call(sidebar_html: sidebar_html, content_html: city_engine.call(startups: city[:startups]), location_name: location_name)
               )
             end
@@ -39,7 +39,7 @@ module StartupsByCity
       end
 
       def city_path(country, state, city)
-        "#{city[:name]} #{state} #{country}".downcase.gsub(/\W+/, '-') + '.html'
+        "#{city} #{state} #{country}".downcase.gsub(/\W+/, '-') + '.html'
       end
 
       private
