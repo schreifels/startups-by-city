@@ -32,11 +32,15 @@ module StartupsByCity
             next
           end
 
-          collection[row['location_country_code']] ||= {}
-          collection[row['location_country_code']][row['location_region']] ||= {}
-          collection[row['location_country_code']][row['location_region']][row['location_city']] ||= []
-          collection[row['location_country_code']][row['location_region']][row['location_city']] <<
-            row.to_hash.select { |k, v| ['name', 'short_description', 'homepage_url', 'crunchbase_url'].include?(k) }
+          collection[encode(row['location_country_code'])] ||= {}
+          collection[encode(row['location_country_code'])][encode(row['location_region'])] ||= {}
+          collection[encode(row['location_country_code'])][encode(row['location_region'])][encode(row['location_city'])] ||= []
+          collection[encode(row['location_country_code'])][encode(row['location_region'])][encode(row['location_city'])] <<
+            Hash[*row.to_hash.map do |k, v|
+              if v && ['name', 'short_description', 'homepage_url', 'crunchbase_url'].include?(k)
+                [encode(k), encode(v)]
+              end
+            end.compact.flatten]
         end
 
         puts "Skipped #{skipped} records with incomplete location data"
@@ -94,6 +98,15 @@ module StartupsByCity
         puts "Filtered out #{cities_filtered} cities with less than 10 startups"
 
         collection
+      end
+
+      private
+
+      # The CSV claims to be UTF-8, but it wasn't encoded properly
+      def encode(str)
+        encode_options = { invalid: :replace, undef: :replace, replace: '' }
+        str.encode('Windows-1252', encode_options).force_encoding('UTF-8').
+            encode('UTF-8', encode_options) # remove any remaining unsupported characters
       end
     end
   end

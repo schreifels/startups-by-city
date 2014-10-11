@@ -1,4 +1,6 @@
 require 'haml'
+require 'i18n'
+I18n.available_locales = [:en]
 
 module StartupsByCity
   module Renderer
@@ -39,7 +41,8 @@ module StartupsByCity
       end
 
       def city_path(country, state, city)
-        "#{city} #{state} #{country}".downcase.gsub(/\W+/, '-') + '.html'
+        # transliterate ensures we only use ASCII characters in the URL
+        "#{I18n.transliterate(city)} #{I18n.transliterate(state)} #{I18n.transliterate(country)}".downcase.gsub(/\W+/, '-') + '.html'
       end
 
       private
