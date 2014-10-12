@@ -25,7 +25,7 @@
                           %li<
                             %a{href: StartupsByCity::Renderer::city_path(sidebar_country[:name], sidebar_region[:name], sidebar_city[:name]), class: "#{ 'selected' if sidebar_country[:name] == country_name && sidebar_region[:name] == region_name && sidebar_city[:name] == city_name}"}<
                               #{sidebar_city[:name]} (#{StartupsByCity::Renderer.delimit_number(sidebar_city[:startups_count])})
-        #sidebar-source Created by <a href="http://schreifels.org">Mike Schreifels</a>. Data provided by the <a href="https://developer.crunchbase.com/">CrunchBase Open Data Map</a>.
+        #sidebar-source Created by <a href="http://schreifels.org">Mike Schreifels</a>. Fork it on <a href="https://github.com/schreifels/startups-by-city">Github</a>. Data from the <a href="https://developer.crunchbase.com/">CrunchBase Open Data Map</a>.
       #content
         - if city_startups
           %h1 List of Startups in #{city_name}, #{StartupsByCity::Regions.translate_region_code(country_name, region_name)}
