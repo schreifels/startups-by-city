@@ -1,5 +1,5 @@
 module StartupsByCity
-  module Reference
+  module Regions
     class << self
       REGION_CODES = {
         'ABW' => 'Aruba',

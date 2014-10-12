@@ -3,12 +3,12 @@
     - collection.each do |country|
       %li
         %a.expandable{href: '#'}
-          #{StartupsByCity::Reference.translate_region_code(country[:name])} (#{StartupsByCity::Renderer.delimit_number(country[:startups_count])})
+          #{StartupsByCity::Regions.translate_region_code(country[:name])} (#{StartupsByCity::Renderer.delimit_number(country[:startups_count])})
         %ul.hidden
           - country[:regions].each do |region|
             %li
               %a.expandable{href: '#'}
-                #{StartupsByCity::Reference.translate_region_code(country[:name], region[:name])} (#{StartupsByCity::Renderer.delimit_number(region[:startups_count])})
+                #{StartupsByCity::Regions.translate_region_code(country[:name], region[:name])} (#{StartupsByCity::Renderer.delimit_number(region[:startups_count])})
               %ul.hidden
                 - region[:cities].each do |city|
                   %li

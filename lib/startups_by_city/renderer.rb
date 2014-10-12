@@ -32,7 +32,7 @@ module StartupsByCity
         collection.each do |country|
           country[:regions].each do |region|
             region[:cities].each do |city|
-              location_name = "#{city[:name]}, #{StartupsByCity::Reference.translate_region_code(country[:name], region[:name])}"
+              location_name = "#{city[:name]}, #{StartupsByCity::Regions.translate_region_code(country[:name], region[:name])}"
               full_location_name = "#{city[:name]}, #{region[:name]}, #{country[:name]}"
               puts "  Rendering page for #{full_location_name}"
               File.write(
