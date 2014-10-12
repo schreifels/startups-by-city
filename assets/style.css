@@ -13,8 +13,8 @@ p { margin: 1em 0; }
 
 .hidden { display: none; }
 
-#container { width: 95%; margin: 20px auto; }
-@media (min-width: 768px) { #container { width: 750px; } }
+#container { width: 95%; margin: 2.5% auto; }
+@media (min-width: 768px) { #container { width: 750px; margin: 20px auto; } }
 @media (min-width: 992px) { #container { width: 960px; } }
 @media (min-width: 1200px) { #container { width: 1170px; } }
 
@@ -33,6 +33,7 @@ p { margin: 1em 0; }
 #content tr { border-bottom: 1px solid #f1f1f1; }
 #content tbody tr:hover { cursor: pointer; background: #f7f7f7; }
 #content th, #content td { padding: 15px 10px; vertical-align: middle; }
+#content .name-column { width: 30%; }
 #content .crunchbase { color: #a6c5d0; font-size: 0.9em; }
 
 @media (max-width: 767px) {
