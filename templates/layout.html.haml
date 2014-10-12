@@ -12,17 +12,17 @@
           %ul
             - collection.each do |sidebar_country|
               %li
-                %a{class: "expandable#{' expanded' if sidebar_country[:name] == country_name}", href: '#'}
+                %a{class: "expandable#{' expanded' if sidebar_country[:name] == country_name}", href: '#'}<
                   #{StartupsByCity::Regions.translate_region_code(sidebar_country[:name])} (#{StartupsByCity::Renderer.delimit_number(sidebar_country[:startups_count])})
                 %ul.hidden
                   - sidebar_country[:regions].each do |sidebar_region|
                     %li
-                      %a{class: "expandable#{' expanded' if sidebar_country[:name] == country_name && sidebar_region[:name] == region_name}", href: '#'}
+                      %a{class: "expandable#{' expanded' if sidebar_country[:name] == country_name && sidebar_region[:name] == region_name}", href: '#'}<
                         #{StartupsByCity::Regions.translate_region_code(sidebar_country[:name], sidebar_region[:name])} (#{StartupsByCity::Renderer.delimit_number(sidebar_region[:startups_count])})
                       %ul.hidden
                         - sidebar_region[:cities].each do |sidebar_city|
-                          %li
-                            %a{href: StartupsByCity::Renderer::city_path(sidebar_country[:name], sidebar_region[:name], sidebar_city[:name]), class: "#{ 'selected' if sidebar_country[:name] == country_name && sidebar_region[:name] == region_name && sidebar_city[:name] == city_name}"}
+                          %li<
+                            %a{href: StartupsByCity::Renderer::city_path(sidebar_country[:name], sidebar_region[:name], sidebar_city[:name]), class: "#{ 'selected' if sidebar_country[:name] == country_name && sidebar_region[:name] == region_name && sidebar_city[:name] == city_name}"}<
                               #{sidebar_city[:name]} (#{StartupsByCity::Renderer.delimit_number(sidebar_city[:startups_count])})
         #sidebar-source Created by <a href="http://schreifels.org">Mike Schreifels</a>. Data provided by the <a href="https://developer.crunchbase.com/">CrunchBase Open Data Map</a>.
       #content
@@ -37,10 +37,10 @@
             %tbody
               - city_startups.each do |startup|
                 %tr
-                  %td
+                  %td<
                     %a{href: startup['homepage_url'], target: '_blank'}= startup['name']
                   %td= startup['short_description']
-                  %td
+                  %td<
                     %a{href: startup['crunchbase_url'], target: '_blank'} Crunchbase
         - else
           %h1 List of Startups by City
