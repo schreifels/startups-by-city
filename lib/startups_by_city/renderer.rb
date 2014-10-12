@@ -58,8 +58,10 @@ module StartupsByCity
       end
 
       def city_path(country_name, state_name, city_name)
+        @city_paths ||= {}
         # transliterate ensures we only use ASCII characters in the URL
-        "#{I18n.transliterate(city_name)} #{I18n.transliterate(state_name)} #{I18n.transliterate(country_name)}".
+        @city_paths[country_name + state_name + city_name] ||=
+            "#{I18n.transliterate(city_name)} #{I18n.transliterate(state_name)} #{I18n.transliterate(country_name)}".
             downcase.gsub(/\W+/, '-') + '.html'
       end
     end
