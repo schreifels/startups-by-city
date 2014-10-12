@@ -1,10 +1,17 @@
 module StartupsByCity
   module DataFile
     class << self
-      def get_path
+      def get_path(method)
         `mkdir -p #{File.join(BASE_PATH, 'data')}`
         data_file = Dir[File.join(BASE_PATH, 'data', 'crunchbase_*.csv')].last
-        data_file ? prompt_with_data_file(data_file) : fetch
+
+        if method == :download || !data_file
+          fetch
+        elsif method == :use_existing
+          data_file
+        else
+          prompt_with_data_file(data_file)
+        end
       end
 
       private

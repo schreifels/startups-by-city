@@ -6,7 +6,7 @@ I18n.config.enforce_available_locales = true
 module StartupsByCity
   module Renderer
     class << self
-      def render(collection)
+      def render(collection, google_analytics)
         puts
         puts 'Preparing output directory...'
         `mkdir -p #{File.join(BASE_PATH, 'output')}`
@@ -14,7 +14,14 @@ module StartupsByCity
         `cp #{File.join(BASE_PATH, 'assets', '*')} #{File.join(BASE_PATH, 'output')}`
 
         layout_engine = Haml::Engine.new(File.read(File.join(BASE_PATH, 'templates', 'layout.html.haml'))).
-            render_proc(Object.new, :collection, :country_name, :region_name, :city_name, :city_startups)
+            render_proc(Object.new, :google_analytics, :collection, :country_name, :region_name, :city_name, :city_startups)
+
+        puts
+        if google_analytics
+          puts "Using Google Analytics tracking code #{google_analytics}..."
+        else
+          puts 'No Google Analytics tracking code specified, skipping...'
+        end
 
         puts
         puts 'Rendering index...'
@@ -32,6 +39,7 @@ module StartupsByCity
               File.write(
                 File.join(BASE_PATH, 'output', city_path(country[:name], region[:name], city[:name])),
                 layout_engine.call(
+                  google_analytics: google_analytics,
                   collection: collection,
                   country_name: country[:name],
                   region_name: region[:name],
