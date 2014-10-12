@@ -2,18 +2,48 @@
 %html
   %head
     %meta{charset: 'UTF-8'}
-    %title= full_location_name ? "Startups in #{full_location_name} - List of Startups by City" : 'List of Startups by City'
+    %title= city_name ? "Startups in #{city_name}, #{region_name}, #{country_name} - List of Startups by City" : 'List of Startups by City'
     %link{rel: 'stylesheet', href: 'style.css', type: 'text/css'}
   %body
     -# <script type="text/javascript">var _gaq=_gaq||[];_gaq.push(['_setAccount','UA-9888350-1']);_gaq.push(['_trackPageview']);(function(){var ga=document.createElement('script');ga.type='text/javascript';ga.async=true;ga.src=('https:'==document.location.protocol?'https://ssl':'http://www')+'.google-analytics.com/ga.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(ga,s)})();</script>
     #container
-      = sidebar_html
+      #sidebar
+        %nav
+          %ul
+            - collection.each do |sidebar_country|
+              %li
+                %a{class: "expandable#{' expanded' if sidebar_country[:name] == country_name}", href: '#'}
+                  #{StartupsByCity::Regions.translate_region_code(sidebar_country[:name])} (#{StartupsByCity::Renderer.delimit_number(sidebar_country[:startups_count])})
+                %ul.hidden
+                  - sidebar_country[:regions].each do |sidebar_region|
+                    %li
+                      %a{class: "expandable#{' expanded' if sidebar_country[:name] == country_name && sidebar_region[:name] == region_name}", href: '#'}
+                        #{StartupsByCity::Regions.translate_region_code(sidebar_country[:name], sidebar_region[:name])} (#{StartupsByCity::Renderer.delimit_number(sidebar_region[:startups_count])})
+                      %ul.hidden
+                        - sidebar_region[:cities].each do |sidebar_city|
+                          %li
+                            %a{href: StartupsByCity::Renderer::city_path(sidebar_country[:name], sidebar_region[:name], sidebar_city[:name]), class: "#{ 'selected' if sidebar_country[:name] == country_name && sidebar_region[:name] == region_name && sidebar_city[:name] == city_name}"}
+                              #{sidebar_city[:name]} (#{StartupsByCity::Renderer.delimit_number(sidebar_city[:startups_count])})
+        #sidebar-source Created by <a href="http://schreifels.org">Mike Schreifels</a>. Data provided by the <a href="https://developer.crunchbase.com/">CrunchBase Open Data Map</a>.
       #content
-        - if content_html
-          = content_html
+        - if city_startups
+          %h1 List of Startups in #{city_name}, #{StartupsByCity::Regions.translate_region_code(country_name, region_name)}
+          %table
+            %thead
+              %tr
+                %th Name
+                %th Description
+                %th
+            %tbody
+              - city_startups.each do |startup|
+                %tr
+                  %td
+                    %a{href: startup['homepage_url'], target: '_blank'}= startup['name']
+                  %td= startup['short_description']
+                  %td
+                    %a{href: startup['crunchbase_url'], target: '_blank'} Crunchbase
         - else
           %h1 List of Startups by City
           %p Select a city to view startups in the area.
-      %footer Data provided by the <a href="https://developer.crunchbase.com/">CrunchBase Open Data Map</a>.
     %script{src: 'https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'}
     %script{src: 'application.js'}

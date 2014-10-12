@@ -6,8 +6,8 @@ html { box-sizing: border-box; }
 
 body { font-family: Arial, Helvetica, sans-serif; font-size: 0.9em; line-height: 1.3em; }
 
-a { color: #0076a1; }
-a:hover { text-decoration: none; }
+a { color: #0076a1; text-decoration: none; }
+a:hover { text-decoration: underline; }
 h1 { margin-top: 15px; line-height: 1em; font-size: 1.5em; font-weight: bold; }
 p { margin: 1em 0; }
 
@@ -15,14 +15,17 @@ p { margin: 1em 0; }
 
 #container { width: 75%; max-width: 1170px; margin: 20px auto; }
 
-#sidebar { line-height: 1.5em; margin-right: 4%; padding: 15px; width: 18%; float: left; background: #f7f7f7; border: 1px solid #ededed; }
-#sidebar a { display: block; }
+#sidebar { width: 23%; margin-right: 4%; float: left; }
+#sidebar nav { line-height: 1.5em; padding: 15px; background: #f7f7f7; border: 1px solid #ededed; }
+#sidebar nav a { display: block; }
+#sidebar nav a.selected { padding: 10px 0; }
 #sidebar li > ul { margin-left: 1em; }
-#sidebar .expanded { font-weight: bold; }
 #sidebar .expandable + ul { display: none; }
-#sidebar .expandable.expanded + ul { display: block; }
+#sidebar .expanded + ul { display: block; }
+#sidebar .expanded, #sidebar nav a.selected { font-weight: bold; color: #245d73; }
+#sidebar-source { font-style: italic; font-size: 0.9em; margin: 15px 0; }
 
-#content { width: 78%; float: left; }
+#content { width: 73%; float: left; }
 #content tr { border-bottom: 1px solid #f1f1f1; }
 #content tbody tr:hover { cursor: pointer; background: #f7f7f7; }
 #content th, #content td { padding: 15px 10px; vertical-align: middle; }
