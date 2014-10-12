@@ -20,20 +20,28 @@ module StartupsByCity
         puts
         puts 'Rendering layout...'
         layout_engine = Haml::Engine.new(template_content('layout')).
-            render_proc(Object.new, :sidebar_html, :content_html, :location_name)
-        File.write(File.join(BASE_PATH, 'output', 'index.html'), layout_engine.call(sidebar_html: sidebar_html))
+            render_proc(Object.new, :sidebar_html, :content_html, :full_location_name)
+        File.write(
+          File.join(BASE_PATH, 'output', 'index.html'),
+          layout_engine.call(sidebar_html: sidebar_html)
+        )
 
         puts
         puts 'Rendering city pages...'
-        city_engine = Haml::Engine.new(template_content('city')).render_proc(Object.new, :startups)
+        city_engine = Haml::Engine.new(template_content('city')).render_proc(Object.new, :location_name, :startups)
         collection.each do |country|
           country[:regions].each do |region|
             region[:cities].each do |city|
-              location_name = "#{city[:name]}, #{region[:name]}, #{country[:name]}"
-              puts "  Rendering page for #{location_name}"
+              location_name = "#{city[:name]}, #{StartupsByCity::Reference.translate_region_code(country[:name], region[:name])}"
+              full_location_name = "#{city[:name]}, #{region[:name]}, #{country[:name]}"
+              puts "  Rendering page for #{full_location_name}"
               File.write(
                 File.join(BASE_PATH, 'output', city_path(country[:name], region[:name], city[:name])),
-                layout_engine.call(sidebar_html: sidebar_html, content_html: city_engine.call(startups: city[:startups]), location_name: location_name)
+                layout_engine.call(
+                  sidebar_html: sidebar_html,
+                  content_html: city_engine.call(location_name: location_name, startups: city[:startups]),
+                  full_location_name: full_location_name
+                )
               )
             end
           end
@@ -42,7 +50,8 @@ module StartupsByCity
 
       def city_path(country, state, city)
         # transliterate ensures we only use ASCII characters in the URL
-        "#{I18n.transliterate(city)} #{I18n.transliterate(state)} #{I18n.transliterate(country)}".downcase.gsub(/\W+/, '-') + '.html'
+        "#{I18n.transliterate(city)} #{I18n.transliterate(state)} #{I18n.transliterate(country)}".
+            downcase.gsub(/\W+/, '-') + '.html'
       end
 
       private

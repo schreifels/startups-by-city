@@ -1,3 +1,4 @@
+%h1 List of Startups in #{location_name}
 %table
   %thead
     %tr
@@ -8,7 +9,7 @@
     - startups.each do |startup|
       %tr
         %td
-          %a{href: startup['homepage_url']}= startup['name']
+          %a{href: startup['homepage_url'], target: '_blank'}= startup['name']
         %td= startup['short_description']
         %td
-          %a{href: startup['crunchbase_url']} Crunchbase
+          %a{href: startup['crunchbase_url'], target: '_blank'} Crunchbase
