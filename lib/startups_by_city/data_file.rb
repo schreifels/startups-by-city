@@ -1,3 +1,5 @@
+require 'tmpdir'
+
 module StartupsByCity
   module DataFile
     class << self
@@ -38,14 +40,14 @@ module StartupsByCity
         puts 'Fetching latest data...'
         puts
 
-        archive_path = File.join(BASE_PATH, 'data', "crunchbase_#{Time.now.strftime('%Y-%m-%d')}.csv.tar.gz")
-        `curl http://static.crunchbase.com/exports/crunchbase_odm_csv.tar.gz -o #{archive_path}`
-        `tar -xf #{archive_path} -C #{File.join(BASE_PATH, 'data')} organizations.csv`
-        csv_path = archive_path.chomp('.tar.gz')
-        `mv #{File.join(BASE_PATH, 'data', 'organizations.csv')} #{csv_path}`
-        `rm #{archive_path}`
-
-        csv_path
+        Dir.mktmpdir('StartupsByCity') do |tmpdir|
+          archive_path = File.join(tmpdir, 'crunchbase.tar.gz')
+          `curl http://static.crunchbase.com/exports/crunchbase_odm_csv.tar.gz -o #{archive_path}`
+          `tar -xf #{archive_path} -C #{tmpdir} organizations.csv`
+          destination_path = File.join(BASE_PATH, 'data', "crunchbase_#{Time.now.strftime('%Y-%m-%d')}.csv")
+          `mv #{File.join(tmpdir, 'organizations.csv')} #{destination_path}`
+          destination_path
+        end
       end
     end
   end
