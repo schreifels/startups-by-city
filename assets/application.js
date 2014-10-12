@@ -9,8 +9,14 @@ $(function() {
   $('#sidebar').find('.expandable').click(function(e) {
     e.preventDefault();
     $this = $(this);
-    var wasExpanded = $this.hasClass('expanded');
-    $this.parents('ul:eq(0)').find('.expanded').removeClass('expanded');
+
+    if (window.matchMedia('(max-width: 767px)').matches) {
+      var wasExpanded = $this.is('.expanded:not(.auto-expanded)');
+    } else {
+      var wasExpanded = $this.hasClass('expanded');
+    }
+
+    $this.parents('ul:eq(0)').find('.expanded, .auto-expanded').removeClass('expanded auto-expanded');
     if (!wasExpanded) $this.addClass('expanded');
   });
 });

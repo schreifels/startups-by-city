@@ -1,6 +1,7 @@
 require 'haml'
 require 'i18n'
 I18n.available_locales = [:en]
+I18n.config.enforce_available_locales = true
 
 module StartupsByCity
   module Renderer
