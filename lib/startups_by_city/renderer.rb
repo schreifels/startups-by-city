@@ -48,6 +48,11 @@ module StartupsByCity
         end
       end
 
+      def delimit_number(int)
+        # Borrowed from ActiveSupport::NumberHelper
+        int.to_s.gsub(/(\d)(?=(\d\d\d)+(?!\d))/) { "#{$1}," }
+      end
+
       def city_path(country, state, city)
         # transliterate ensures we only use ASCII characters in the URL
         "#{I18n.transliterate(city)} #{I18n.transliterate(state)} #{I18n.transliterate(country)}".

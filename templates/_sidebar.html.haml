@@ -3,14 +3,14 @@
     - collection.each do |country|
       %li
         %a.expandable{href: '#'}
-          = StartupsByCity::Reference.translate_region_code(country[:name]) + " (#{country[:startups_count]})"
+          #{StartupsByCity::Reference.translate_region_code(country[:name])} (#{StartupsByCity::Renderer.delimit_number(country[:startups_count])})
         %ul.hidden
           - country[:regions].each do |region|
             %li
               %a.expandable{href: '#'}
-                = StartupsByCity::Reference.translate_region_code(country[:name], region[:name]) + " (#{region[:startups_count]})"
+                #{StartupsByCity::Reference.translate_region_code(country[:name], region[:name])} (#{StartupsByCity::Renderer.delimit_number(region[:startups_count])})
               %ul.hidden
                 - region[:cities].each do |city|
                   %li
                     %a{href: StartupsByCity::Renderer::city_path(country[:name], region[:name], city[:name])}
-                      #{city[:name]} (#{city[:startups_count]})
+                      #{city[:name]} (#{StartupsByCity::Renderer.delimit_number(city[:startups_count])})
