@@ -6,17 +6,27 @@ $(function() {
     }
   });
 
+  $window = $(window);
+
   $('#sidebar').find('.expandable').click(function(e) {
+    var wasExpanded, targetTop;
+
     e.preventDefault();
     $this = $(this);
 
     if (window.matchMedia('(max-width: 767px)').matches) {
-      var wasExpanded = $this.is('.expanded:not(.auto-expanded)');
+      wasExpanded = $this.is('.expanded:not(.auto-expanded)');
     } else {
-      var wasExpanded = $this.hasClass('expanded');
+      wasExpanded = $this.hasClass('expanded');
     }
 
     $this.parents('ul:eq(0)').find('.expanded, .auto-expanded').removeClass('expanded auto-expanded');
     if (!wasExpanded) $this.addClass('expanded');
+
+    // Prevent the accordian from hiding the nav item we just clicked into
+    targetTop = $this.offset().top;
+    if ($window.scrollTop() > (targetTop + $this.height())) {
+      window.scrollTo(0, targetTop - 10);
+    }
   });
 });
