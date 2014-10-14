@@ -32,6 +32,7 @@ p { margin: 1em 0; }
 #content table { width: 100%; table-layout: fixed; }
 #content tr { border-bottom: 1px solid #f1f1f1; }
 #content tbody tr:hover { cursor: pointer; background: #f7f7f7; }
+#content tbody tr:active { cursor: pointer; background: #ededed; }
 #content th, #content td { padding: 15px 10px; vertical-align: middle; }
 #content .name-column { width: 30%; }
 #content .crunchbase { color: #a6c5d0; font-size: 0.9em; }
