@@ -55,7 +55,7 @@ module StartupsByCity
       def delimit_number(int)
         # Borrowed from ActiveSupport::NumberHelper
         @delimited_numbers ||= {}
-        @delimited_numbers[int.to_s] ||= int.to_s.gsub(/(\d)(?=(\d\d\d)+(?!\d))/) { "#{$1}," }
+        @delimited_numbers[int] ||= int.to_s.gsub(/(\d)(?=(\d\d\d)+(?!\d))/) { "#{$1}," }
       end
 
       def city_path(country_name, state_name, city_name)
