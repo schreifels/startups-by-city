@@ -15,12 +15,12 @@
           %ul
             - collection.each do |sidebar_country|
               %li
-                %a{class: "expandable#{' expanded auto-expanded' if sidebar_country[:name] == country_name}", href: '#'}<
+                %a{href: '#', class: "expandable#{' expanded auto-expanded' if sidebar_country[:name] == country_name}"}<
                   #{StartupsByCity::Regions.translate_region_code(sidebar_country[:name])} (#{StartupsByCity::Renderer.delimit_number(sidebar_country[:startups_count])})
                 %ul
                   - sidebar_country[:regions].each do |sidebar_region|
                     %li
-                      %a{class: "expandable#{' expanded auto-expanded' if sidebar_country[:name] == country_name && sidebar_region[:name] == region_name}", href: '#'}<
+                      %a{href: '#', class: "expandable#{' expanded auto-expanded' if sidebar_country[:name] == country_name && sidebar_region[:name] == region_name}"}<
                         #{StartupsByCity::Regions.translate_region_code(sidebar_country[:name], sidebar_region[:name])} (#{StartupsByCity::Renderer.delimit_number(sidebar_region[:startups_count])})
                       %ul
                         - sidebar_region[:cities].each do |sidebar_city|
