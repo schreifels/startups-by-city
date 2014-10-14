@@ -19,7 +19,8 @@ p { margin: 1em 0; }
 @media (min-width: 1200px) { #container { width: 1170px; } }
 
 #sidebar { width: 28%; margin-right: 4%; float: left; }
-#sidebar h2 { margin-bottom: 1em; color: #c2c2c2; text-align: center; letter-spacing: 5px; text-transform: uppercase; }
+#sidebar h2 { margin-bottom: 1em; text-align: center; letter-spacing: 5px; text-transform: uppercase; }
+#sidebar h2 a { color: #c2c2c2; text-decoration: none; }
 #sidebar nav { line-height: 1.5em; padding: 15px; background: #f7f7f7; border: 1px solid #ededed; }
 #sidebar nav a { display: block; }
 #sidebar li > ul { margin-left: 1em; }

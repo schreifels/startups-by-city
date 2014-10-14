@@ -11,7 +11,8 @@
     #container
       #sidebar
         %nav
-          %h2 Select a city
+          %h2<
+            %a{href: 'index.html'} Select a City
           %ul
             - collection.each do |sidebar_country|
               %li
