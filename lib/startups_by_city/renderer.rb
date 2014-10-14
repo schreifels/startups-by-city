@@ -27,7 +27,7 @@ module StartupsByCity
         puts 'Rendering index...'
         File.write(
           File.join(BASE_PATH, 'output', 'index.html'),
-          layout_engine.call(collection: collection)
+          layout_engine.call(google_analytics: google_analytics, collection: collection)
         )
 
         puts
