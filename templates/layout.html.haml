@@ -1,8 +1,14 @@
+- prev_page_path = (page && page > 1) ? StartupsByCity::Renderer::city_path(country_name, region_name, city_name, page - 1) : nil
+- next_page_path = (total_pages && page && total_pages > page) ? StartupsByCity::Renderer::city_path(country_name, region_name, city_name, page + 1) : nil
 !!!
 %html
   %head
     %meta{charset: 'UTF-8'}
     %meta{name: 'viewport', content: 'width=device-width, initial-scale=1'}
+    - if prev_page_path
+      %link{rel: 'prev', href: prev_page_path}
+    - if next_page_path
+      %link{rel: 'next', href: next_page_path}
     %title= city_name ? "Startups in #{city_name}, #{region_name}, #{country_name} - List of Startups by City" : 'List of Startups by City'
     %link{rel: 'stylesheet', href: 'style.css', type: 'text/css'}
     - if google_analytics
@@ -32,6 +38,7 @@
       #content
         - if city_startups
           %h1 List of Startups in #{city_name}, #{StartupsByCity::Regions.translate_region_code(country_name, region_name)}
+          Page #{page} of #{total_pages}
           %table
             %thead
               %tr
@@ -45,6 +52,12 @@
                     %br
                     %a.crunchbase{href: startup['crunchbase_url'], target: '_blank'}> Crunchbase
                   %td= startup['short_description']
+          .pagination
+            - if prev_page_path
+              %a.pagination-prev{href: prev_page_path} Previous page
+            Page #{page} of #{total_pages}
+            - if next_page_path
+              %a.pagination-next{href: next_page_path} Next page
         - else
           %h1 List of Startups by City
           %p Select a city to view startups in the area.
