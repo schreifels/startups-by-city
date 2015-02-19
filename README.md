@@ -1,4 +1,7 @@
 # startups-by-city
+
+**NOTE:** Please see "Project status" below.
+
 startups-by-city is a static site generator that:
 
 1. Fetches the latest startup data from the CrunchBase Open Data Map
@@ -10,6 +13,10 @@ Requires a unix-based system with Ruby 1.9.3+, ```curl```, and ```tar```.
 ## Demo
 
 https://schreifels.github.io/startups-by-city
+
+## Project status
+
+Unfortunately, the data set used by this project is [no longer freely available](https://info.crunchbase.com/about/crunchbase-data-exports/), so there will be no further updates.
 
 ## Command Line Interface
 
