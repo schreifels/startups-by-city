@@ -48,9 +48,9 @@
               - city_startups.each do |startup|
                 %tr
                   %td<
-                    %a{href: startup['homepage_url'], target: '_blank'}>= startup['name']
+                    %a{rel: 'nofollow', href: startup['homepage_url'], target: '_blank'}>= startup['name']
                     %br
-                    %a.crunchbase{href: startup['crunchbase_url'], target: '_blank'}> Crunchbase
+                    %a.crunchbase{rel: 'nofollow', href: startup['crunchbase_url'], target: '_blank'}> Crunchbase
                   %td= startup['short_description']
           .pagination
             - if prev_page_path
